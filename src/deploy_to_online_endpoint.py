@@ -56,16 +56,16 @@ def create_or_update_deployment(
         type=AssetTypes.MLFLOW_MODEL,
         description="MLflow diabetes classification model",
     )
-
     deployment = ManagedOnlineDeployment(
         name=deployment_name,
         endpoint_name=endpoint_name,
         model=model,
-        instance_type="Standard_D2as_v4",
+        environment="azureml://registries/azureml/environments/mlflow-sklearn-1.1/versions/latest",
+        instance_type="Standard_DS2_v2",
         instance_count=1,
     )
-
     return ml_client.online_deployments.begin_create_or_update(deployment).result()
+
 
 
 def set_traffic_to_deployment(ml_client: MLClient, endpoint_name: str, deployment_name: str) -> None:
